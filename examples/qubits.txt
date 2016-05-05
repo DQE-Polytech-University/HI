@@ -1,0 +1,127 @@
+import numpy as np
+import math
+import random
+
+eva=input('enter key generation condition, with Eve - yes, no-no: ');
+q=int(input('enter the number of qubits:');
+if eva=='no':
+#generate qubits Alice
+	basAlisa=np.random.randint(0,1,q);
+	n=0;
+	while n<=q:
+		if basAlisa==0:
+			Pol=np.random.choise([0,90]);
+			if Pol==0:
+ 			qubit1=[[1,0],[1/math.sqrt(2),-1/math.sqrt(2)]];
+			else:
+				qubit1=[[0,1],[1/math.sqrt(2),1/math.sqrt(2)]];
+	
+		else:
+			Pol=np.random.choise([45,135]);
+ 		if Pol==45:
+ 			qubit1=[[1/math.sqrt(2),1/math.sqrt(2)],[1,0]];
+			else:
+				qubit1=[[-1/math.sqrt(2),1/math.sqrt(2)],[0,1]];
+		n=n+1;
+qubits[n]=Pol;
+	
+#Bob generates its bases for measurements and makes the qubits	
+	basBob=np.random.randint(0,1,10);
+	i=0;
+	while i<=10:
+		if basAlisa[i]==0 and basBob[i]==0:
+			PolBob[i]=qubits[i];
+		if basAlisa[i]==1 and basBob[i]==1:
+			PolBob[i]=qubits[i];
+		if basAlisa[i]==0 and basBob[i]==1:
+			PolBob[i]=np.random.choise([45,135]);
+		else:	
+			PolBob[i]=np.random.choise([0,90]);
+		i=i+1;
+	print( PolBob);
+#number of qubits are formed, which have been removed correctly	
+	z=0;
+	while i<=10:
+		if basAlisa[i]==basBob[i]:
+			Keytrack[z]=qubits[i];
+		z=z+1;
+		i=i+1;
+		else:
+			pass;
+#shaped key
+	k=0
+	z=0;
+	while k<=z:
+ 	if Keytrack[z]==0:
+ 		key[k]=0;
+ 	if Keytrack[z]==45:
+ 		key[k]=0;
+ 	if Keytrack[z]==90:
+ 		key[k]=1;
+ 	if Keytrack[z]==135:
+ 		key[k]=1;
+ 	k=k+1;
+ 	z=z+1; 
+else:
+#generate qubits Alice
+	basAlisa=np.random.randint(0,1,10);
+	n=0;
+	while n<=10:
+		if basAlisa==0:
+			Pol=np.random.choise([0,90]);
+		if Pol==0:
+ 	qubit1=[[1,0],[1/math.sqrt(2),-1/math.sqrt(2)]];
+		else:
+			qubit1=[[0,1],[1/math.sqrt(2),1/math.sqrt(2)]];
+	
+		else:
+			Pol=np.random.choise([45,135]);
+ 		if Pol==45:
+ 			qubit1=[[1/math.sqrt(2),1/math.sqrt(2)],[1,0]];
+			else:
+				qubit1=[[-1/math.sqrt(2),1/math.sqrt(2)],[0,1]];
+		n=n+1;
+	qubits[i]=Pol;	
+
+# Bob and Eve generate their bases for measurements	
+	basEva=np.random.randint(0,1,q);
+	basBob=np.random.randint(0,1,q);
+	i=0;
+	while i<=q:
+		if basAlisa[i]==0 and basEva[i]==0:
+			PolEva=np.random.choise([0,90]);
+			PolBob[i]=PolEva;
+		if basAlisa[i]==1 and basEva[i]==1:
+			PolEva=np.random.choise([45,135]);
+			PolBob[i]=PolEva;
+		else:	
+			PolBob[i]=qubits[i];
+		i=i+1;
+	print( PolBob);
+# Numbers of qubits are formed, which have been removed correctly	
+	z=0;
+	while i<=10:
+		if basAlisa[i]==basBob[i]:
+			Keytrack[z]=PolBob[i];
+		z=z+1;
+		i=i+1;
+		else:
+			pass;
+#shaped key
+	k=0
+	z=0;
+	while k<=z:
+ 	if Keytrack[z]==0:
+ 		key[k]=0;
+ 	if Keytrack[z]==45:
+ 		key[k]=0;
+ 	if Keytrack[z]==90:
+ 		key[k]=1;
+ 	if Keytrack[z]==135:
+ 		key[k]=1;
+ 	k=k+1;
+ 	z=z+1;
+ 	print(key);
+
+  
+
