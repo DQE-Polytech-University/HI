@@ -7,14 +7,25 @@ Created on Thu May  5 14:50:51 2016
 import numpy as np
 import math
 class Particle:
-    def __init__(self,n_bas,n_pol):
-        self.set_numberbas=n_bas
-        self.set_numberpol=n_pol
-qubit=Particle(2,4)
-print(qubit.set_numberbas,qubit.set_numberpol)
-    #def Bas(self,n):
-       # self.set_bas=n
-   # def set_Poll(self,bas1_pol1,bas1_pol2,bas2_pol3,bas2_pol4,bas3_pol5,bas3_pol6):
+    def __init__(self,bas,pol):
+        self.set_numberbas=bas
+        self.set_numberpol=pol
+#qubit=Particle(2,4)
+#print(qubit.set_numberbas,qubit.set_numberpol)
+    def Bas(self):
+        print(self.set_numberbas)
+        #self.set_bas=n
+    def set_Poll(self):
+        self.polarization=self.set_numberpol
+        self.basis=self.set_numberbas
+        if self.polarization==0:
+            if self.basis==1:
+                a=np.random.randint(0,2)
+                b=np.random.randint(0,2)
+                self.qubit=[[a],[b]]
+                
+                
+        
       #  i=0
       #  while i<=lenght:
          #   if Alisa[i]==0:
