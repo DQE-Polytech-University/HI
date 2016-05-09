@@ -1,0 +1,30 @@
+import numpy as np
+import math
+class Particle:
+    def __init__(self,bas,n_pol): #selected number of bases and polarizations
+        self.set_numberbas=bas #is the number of bases
+        self.set_numberpol=n_pol #is the number of polarizations
+#qubit=Particle(2,4)
+#print(qubit.set_numberbas,qubit.set_numberpol)
+    def Bas(self): #function shows the number of bases for some reason
+        print(self.set_numberbas)
+        #self.set_bas=n
+    def formation(self,n_bas): #First you need to enter a selected
+    #basis Alice from the array
+        a=self.set_numberbas
+        
+        self.basis=self.set_numberbas
+        if self.polarization==1:
+            if self.basis==1:
+                a=np.random.randint(0,2)
+                b=np.random.randint(0,2)
+                self.qubit=[[a],[b]]
+                
+                
+        
+      #  i=0
+      #  while i<=lenght:
+         #   if Alisa[i]==0:
+           #     Pol=np.random.choise([0,90])
+                
+
