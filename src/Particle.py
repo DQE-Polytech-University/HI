@@ -5,7 +5,7 @@ Created on Thu May  5 14:50:51 2016
 @author: Алена
 """
 import numpy as np
-import math
+from math import *
 
 class Particle:
     def __init__(self,bas,n_pol): #selected number of bases and polarizations
@@ -56,7 +56,42 @@ class Particle:
                 else:
                     self.qubit=[[-1/math.sqrt(2),1/math.sqrt(2)],[0,1]]
         print('my qubit',self.qubit)
-q=Particle(2,4)
-q.formation(1)
+#q=Particle(2,4)
+#q.formation(1)
+        def set_the_qubit(self,polariz):
+            b=self.set_numberbas
+            if b==1:
+                self.qub=[[cos(polariz)][sin[polariz]]]
+            if b==2:
+                if polariz<89:
+                    if polariz==0:
+                        self.qub=[[1,0],[1/math.sqrt(2),-1/math.sqrt(2)]]
+                    else:
+                        self.qub=[[1/math.sqrt(2),1/math.sqrt(2)],[1,0]]
+                else:
+                    if polariz==90:
+                       self.qub=[[0,1],[1/math.sqrt(2),1/math.sqrt(2)]]
+                    else:
+                        self.qub=[[-1/math.sqrt(2),1/math.sqrt(2)],[0,1]]
+                
+        def teleport(self):
+            a1=np.random.choice([0,1])
+            if a1==0:
+                b1=1
+                a2=1
+            else:
+                b1=0
+                a2=0
+            if b1==0:
+                b2=1
+            else:
+                b2=0
+            self.t_q=[[a1,b2][a2,b1]]
+            print('our state:','(','|',a1,'>','|',b2,'>','+','|',a2,'>','|',b1,'>',')','/',sqrt(2))
+            self.teleq1=[a1,a2]
+            self.teleq2=[b1,b2]
+            
+            
+            
 
        
