@@ -1,15 +1,18 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu May  5 14:50:51 2016
+Created on Thu May 12 01:52:25 2016
 
 @author: Алена
 """
+
 import numpy as np
 import math
+from cmath import sin, cos, e
 
 class Particle:
     def __init__(self,bas): #selected number of bases and polarizations
         self.set_numberbas=bas #is the number of bases
+        
     def Bas(self): #function shows the number of bases for some reason
         print(self.set_numberbas)
         
@@ -39,58 +42,6 @@ class Particle:
                 else:
                     self.qubit=[[-1/math.sqrt(2),1/math.sqrt(2)],[0,1]]
                     self.qubit1=[[math.sin(angleinrad)],[math.cos(angleinrad)]]
-        
-        print('my qubit',self.qubit)
-#        print('my qubit',self.qubit1)
-#q=Particle(1)
-#q.formation(1)
-#print(q.Pol)
-        def set_the_qubit(self,polariz,circular):
-         self.set_polariz_for_qubit=polariz
-         self.circular_pol=circular
-         f=self.circular_pol
-         turn=complex(0,f)
-         angle=self.set_polariz_for_qubit
-         angle_in_rad=math.radians((int(angle))/2)
-         self.a=math.cos(angle_in_rad)
-         self.b=math.sin(angle_in_rad)
-         self.circ=e**(turn.imag)
-         q1=0
-         q2=1
-         q3=self.a
-         q4=(self.circ)*(self.b)
-         self.qubit=[[q1,q2],[q3,q4]]
-         if f==0:
-             print('qubit: ',q3,'|',q1,'>','+',q4,'|',q2,'>')
-         else:
-            print('qubit: ',q3,'|',q1,'>','+','e^(j',turn.imag,')',self.b,'|',q2,'>')
-#q=Particle(2,4)
-#q.set_the_qubit(45,7)
-#print(q.a)
-#print(q.b)
-#print(q.circ)
-#print(q.qubit)
-                
-    def teleport(self):
-        a1=np.random.choice([0,1])
-        if a1==0:
-            b1=1
-            a2=1
-        else:
-            b1=0
-            a2=0
-        if b1==0:
-            b2=1
-        else:
-            b2=0
-        #self.t_q=[[a1,b2][a2,b1]]
-        print('our state:','(','|',a1,'>','|',b2,'>','+','|',a2,'>','|',b1,'>',')','/',math.sqrt(2))
-        self.teleq1=[a1,a2]
-        self.teleq2=[b1,b2]
-#q=Particle()
-#q.teleport()
-#print(q.teleq1)
-#print(q.teleq2)
 class Generator(Particle):        
     def Alisa(self,long_q):
         self.set_long=long_q
