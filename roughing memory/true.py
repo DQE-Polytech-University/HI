@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu May  5 14:50:51 2016
+Created on Fri May 13 17:13:49 2016
 
 @author: Алена
 """
@@ -111,3 +111,5 @@ class Generator(Qubit):
                     self.key.append(0)
             else:
                 pass
+
+
