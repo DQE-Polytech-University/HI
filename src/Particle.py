@@ -8,15 +8,24 @@ import numpy as np
 import math
 
 class Particle:
-    def __init__(self,bas): #selected number of bases and polarizations
+    def __init__(self, phi, theta):
+        pass
+    
+    def __init__(self, bas): #selected number of bases and polarizations
         self.set_numberbas=bas #is the number of bases
+        
     def Bas(self): #function shows the number of bases for some reason
         print(self.set_numberbas)
+    
+    def __repr__(self):
+        return "qubit: " + str(self.set_numberbas)
+        
+    # PyCharm
         
     def formation(self,n_bas): #First you need to enter a selected
     #basis Alice from the array
-        a=self.set_numberbas
-        if a==1:
+        a = self.set_numberbas
+        if a == 1:
             self.Pol=np.random.choice([0,90])
             angleinrad=math.radians((int(self.Pol))/2)
             self.qubit=[[math.cos(angleinrad)],[math.sin(angleinrad)]]
@@ -40,11 +49,34 @@ class Particle:
                     self.qubit=[[-1/math.sqrt(2),1/math.sqrt(2)],[0,1]]
                     self.qubit1=[[math.sin(angleinrad)],[math.cos(angleinrad)]]
         
-        print('my qubit',self.qubit)
+        print('my qubit', self.qubit)
+# qubit = Particle(1)
+# quibit.Bas()
+# print qubit
+# quibit.formation(1)
 #        print('my qubit',self.qubit1)
 #q=Particle(1)
 #q.formation(1)
 #print(q.Pol)
+        
+# Qubit:
+# __init__(alpha=None, theta=None):
+        # if alha is None and theta is None:
+        # alpha = rand()
+        # beta = rand))
+        # else:
+# alice = Actor()
+# bob = Actor()
+# bb84 = Qcc()
+# q1 = Qubit(a,b)
+# alice.use([q1,q2])
+# alice.rand_base()
+# packet = alice.take_packet()
+# res = bob.mesure(packet)
+        # alice.check(re) N M: M< N
+# myFunctonIsBals
+# my_function_is_bla
+        
         def set_the_qubit(self,polariz,circular):
          self.set_polariz_for_qubit=polariz
          self.circular_pol=circular
