@@ -9,10 +9,10 @@ import math
 
 class Qubit:
     
-    def __init__(self,alpha=None,theta=None):
+    def __init__(self,alpha,theta):
         self.alpha = alpha
         self.theta = theta  
-        self.qubit = math.cos(alpha)+(math.e**(math.j*theta))*math.sin(alpha)
+        self.qubit =[[self.alpha, self.theta]]
     
     def __repr__(self):
         return "qubit: " + str(self.qubit)
@@ -29,6 +29,11 @@ class Generator():
         self.write_pol=tuple(args)
         self.len_pol=len(self.write_pol)
         return args
+        
+    def write_theta(self,*args):
+        self.write_theta=tuple(args)
+        self.len_theta=len(self.write_theta)
+        return args
     
     def write_bases(self,*args):
         self.write_bas = tuple(args)
@@ -36,10 +41,25 @@ class Generator():
         return args
 
     def send(self):
+        i=0
+        self.randomly_theta=[]
         self.randomly_bases=np.random.choice(self.write_bas,self.long_message)
         self.randomly_polarization=np.random.choice(self.write_pol,self.long_message)
-        
-class Alisa(Generator):
+        while i<self.long_message:
+            const=self.randomly_polarization[i]
+            a=0
+            while a<self.len_pol:
+                if const==self.write_pol[a]:
+                    self.randomly_theta.insert(i,self.write_theta[a])
+                else:
+                    pass
+                a=a+1
+            i=i+1
+        return self.randomly_theta
+                    
+                
+
+class Alice(Generator):
         
     def get_randomly_polarization(self):
         self.she_send_randomly_polarization=self.randomly_polarization
@@ -48,6 +68,7 @@ class Alisa(Generator):
     def get_randomly_bases(self):
         self.she_send_randomly_bases=self.randomly_bases
         return self.she_send_randomly_bases
+    
         
 class Bob(Generator):
         
@@ -59,10 +80,23 @@ class Bob(Generator):
         self.he_send_randomly_bases=self.randomly_bases
         return self.he_send_randomly_bases
         
-        
-class Various_measurement(Alisa,Bob,Generator):
+
+
+class Operation_Dice():
     
-    def compare_Bob_Alise(self):
+    def __init__(self,alpha=None,theta=None):
+        self.alpha=alpha
+        self.theta=theta
+        if alpha==None:
+            self.alpha=np.random.randint(0,360)
+        self.qubit=[[self.alpha,self.theta]]
+        if theta==None:
+            self.theta=np.random.randint(0,360)
+        self.qubit=[[self.alpha,self.theta]]
+        
+class Various_measurement(Alice,Bob,Generator,Operation_Dice):
+    
+    def compare_bob_alice(self):
         self.taken_qubits=[]
         i=0
         while i < self.long_message:
@@ -70,8 +104,9 @@ class Various_measurement(Alisa,Bob,Generator):
                 self.taken_qubits.append(self.she_send_randomly_polarization(i))
             else:
                 self.taken_qubits.append(self.he_send_randomly_bases(i))
-        i=i+1
+            i=i+1
         return self.taken_qubits
+        
         
     def generate_key(self):
         self.key=[]
@@ -84,62 +119,34 @@ class Various_measurement(Alisa,Bob,Generator):
                     self.key.append(0)
             else:
                 pass
+            
+     def bring_qubits(self):
+        self.my_qubits=[]
+        n=0
+        while n<self.long_message:
+            q=Operation_Dice(None,None)
+            self.my_qubits.append(q.qubit)
+            n=n+1
+        return self.my_qubits
+        
+            
     
-class Operation_Dice(Qubit):
-    def set_the_qubit(self):
-        if self.alfa==None and self.theta==None:
-            self.set_polariz_for_qubit = np.random.randint([0,380])
-            self.circular_pol = np.random.choise([90,-90])
-            f = self.circular_pol
-            turn = complex(0,f)
-            angle = self.set_polariz_for_qubit
-            angle_in_rad = math.radians((int(angle))/2)
-            self.a = math.cos(angle_in_rad)
-            self.b = math.sin(angle_in_rad)
-            self.circ = math.e**(turn.imag)
-            q1 = 0
-            q2 = 1
-            q3 = self.a
-            q4 = (self.circ)*(self.b)
-            self.qubit = [[q1,q2],[q3,q4]]
-        elif self.alfa == 361 and self.theta ==0:
-            a1=np.random.choice([0,1])
-            if a1==0:
-                b1 = 1
-                a2 = 1
-            else:
-                b1 = 0
-                a2 = 0
-            if b1==0:
-                b2 = 1
-            else:
-                b2 = 0
-            self.qubit = [[a1,b2][a2,b1]]
-            self.teleq1 = [a1,a2]
-            self.teleq2 = [b1,b2]
-        else:
-            f = self.theta
-            turn = complex(0,f)
-            angle = self.alfa
-            angle_in_rad = math.radians((int(angle))/2)
-            self.a = math.cos(angle_in_rad)
-            self.b = math.sin(angle_in_rad)
-            self.circ = math.e**(turn.imag)
-            q1 = 0
-            q2 = 1
-            q3 = self.a
-            q4 = (self.circ)*(self.b)
-            self.qubit = [[q1,q2],[q3,q4]]
-        return self.qubit
+
+    
+
         
         
         
         
-a=Alisa(2,10)
+a=Alice(2,10)
 a.write_bases(0,1)
 a.write_polarization(0,45,33,135)
 a.send()
 a.get_randomly_polarization()
 print(a.she_send_randomly_polarization)
 print(a.she_send_randomly_polarization[1])
+
+a=Various_measurement(2,10)
+a.bring_qubits()
+print(a.my_qubits)
 
