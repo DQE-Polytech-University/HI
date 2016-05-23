@@ -12,7 +12,7 @@ class Qubit:
     def __init__(self,alpha,theta):
         self.alpha = alpha
         self.theta = theta  
-        self.qubit =[[self.alpha, self.theta]]
+        self.qubit =[[self.alpha], [self.theta]]
     
     def __repr__(self):
         return "qubit: " + str(self.qubit)
@@ -120,7 +120,7 @@ class Various_measurement(Alice,Bob,Generator,Operation_Dice):
             else:
                 pass
             
-     def bring_qubits(self):
+    def bring_qubits(self):
         self.my_qubits=[]
         n=0
         while n<self.long_message:
@@ -129,7 +129,35 @@ class Various_measurement(Alice,Bob,Generator,Operation_Dice):
             n=n+1
         return self.my_qubits
         
-            
+class Gate(Qubit):
+    
+    def transform_qubit(self):
+        a = math.cos(self.alpha)
+        b2 = math.sin(self.alpha)
+        b1 = complex(0,self.theta)
+        b1 = math.e**(b1.imag)
+        b = b1*b2
+        self.qubit = [[a],[b]]
+        
+    def act_Hadamard(self):
+        Hadamard = [[1/math.sqrt(2),1/math.sqrt(2)],[1/math.sqrt(2),-1/math.sqrt(2)]]
+        self.Hadamard = Hadamard*self.qubit
+        
+    def act_not(self):
+        NOT = [[0,1],[1,0]]
+        self.NOT = NOT*self.qubit
+        
+    def act_phase_gate(self):
+        a = complex(0,1)
+        a = a.imag
+        phase_gate = [[1,0],[0,a]]
+        self.phase_gate = phase_gate * self.qubit
+        
+    def affect_gate_pi(self):
+        p = complex(0,math.pi/4)
+        p = p.imag
+        gate_pi = [[1,0],[0,p]]
+        self.gate_pi = gate_pi * self.qubit
     
 
     
