@@ -9,54 +9,111 @@ import math
 
 class Qubit:
     
-    def __init__(self,alpha,theta): #Set the parameters 
-    #of the qubit using two angles is not the sphere of Bloch
-        self.alpha = alpha
-        self.theta = theta  
-        self.qubit =[[self.alpha], [self.theta]]
+    def __init__(self,alpha=None,theta=None):
+        self.alpha=alpha
+        self.theta=theta
+        if alpha==None:
+            self.alpha=np.random.randint(0,360)
+        if theta==None:
+            self.theta=np.random.randint(0,360)
+        self.qubit=[[self.alpha,self.theta]]
     
     def __repr__(self): #a method for outputting a qubit
         return "qubit: " + str(self.qubit)
         
+class Hadamard():
+    def __init__(self): 
+        self.apply_Hadamard = [[1/math.sqrt(2),1/math.sqrt(2)],[1/math.sqrt(2),-1/math.sqrt(2)]]
+    
+    def __repr__(self): #a method for outputting a qubit
+        return "Hadamard: " + str(self.apply_Hadamard)
+        
+class NOT():
+    def __init__(self):
+        self.apply_NOT = [[0,1],[1,0]]
+        
+    def __repr__(self): 
+        return "NOT: " + str(self.apply_NOT)
+        
+class Phase_gate():
+    def __init__(self):
+        a = complex(0,1)
+        a = a.imag
+        self.apply_phase_gate = [[1,0],[0,a]]
+        
+    def __repr__(self): 
+        return "Phase_gate: " + str(self.apply_phase_gate)
+        
+class Gate_pi():
+    def __init__(self):
+        p = complex(0,math.pi/4)
+        p = p.imag
+        self.apply_gate_pi = [[1,0],[0,p]]
+        
+    def __repr__(self): 
+        return "Gate_pi: " + str(self.apply_gate_pi)
+        
+class CNOT():
+    def __init__(self):
+        self.apply_CNOT = [[1,0,0,0],[0,1,0,0],[0,0,0,1],[0,0,1,0]]
+        
+    def __repr__(self): 
+        return "Gate_pi: " + str(self.apply_CNOT)
 
 
 
-class Generator():
+class Actor():
     def __init__(self, quantity_bas,long_message):#This class
     #constructor generator. Set the number of bases used and the message length
         self.long_message =long_message
         self.quantity_bas = quantity_bas
         
-    def write_polarization(self,*args):
+    def set_alpha1(self,*args):
     #We set the desired polarization. Example: 0, 45, 90, ...
-        self.write_pol=tuple(args)
-        self.len_pol=len(self.write_pol)
+        self.write_alpha1=tuple(args)
+      #  self.len_pol=len(self.write_pol)
+        return args
+    def set_alpha2(self,*args):
+    #We set the desired polarization. Example: 0, 45, 90, ...
+        self.write_alpha2=tuple(args)
+      #  self.len_pol=len(self.write_pol)
         return args
         
     def write_theta(self,*args):
         #A predetermined angle in the other plane Bloch sphere 
     #to describe the first qubit by appropriate angles
         self.write_theta=tuple(args)
-        self.len_theta=len(self.write_theta)
+      #  self.len_theta=len(self.write_theta)
         return args
     
     def write_bases(self,*args): 
         #We denote bases for themselves. This agreement
         self.write_bas = tuple(args)
-        self.len_bas = len(self.write_bas)
+      #  self.len_bas = len(self.write_bas)
         return args
 
     def send(self):
         #This function is used for a random mixing bases and polarizations.
     #Their use Alice and Bob. But if you need something to mix, call this function.
         i=0
+        self.randomly_alpha=[]
         self.randomly_theta=[]
         self.randomly_bases=np.random.choice(self.write_bas,self.long_message)
-        self.randomly_polarization=np.random.choice(self.write_pol,self.long_message)
         while i<self.long_message:
-            const=self.randomly_polarization[i]
+            bas=self.randomly_bases[i]
             a=0
-            while a<self.len_pol:
+            while a<len(self.write_bas):
+                if bas==self.write_bas[a]:
+                    self.randomly_alpha.append=np.random.choice([self.write_alpha1[a],self.write_alpha2[a]])
+                else:
+                    pass
+                a=a+1
+            i=i+1
+        al=0
+        while al<self.long_message:
+            pol=self.randomly_alpha[al]
+            ap=0
+            while ap<self.len_pol:
                 if const==self.write_pol[a]:
                     self.randomly_theta.insert(i,self.write_theta[a])
                 else:
@@ -89,19 +146,6 @@ class Bob(Generator):
         return self.he_send_randomly_bases
         
 
-
-class Operation_Dice():#is another representation of a qubit. 
-#If the corners are anything, they are selected randomly
-    
-    def __init__(self,alpha=None,theta=None):
-        self.alpha=alpha
-        self.theta=theta
-        if alpha==None:
-            self.alpha=np.random.randint(0,360)
-        self.qubit=[[self.alpha,self.theta]]
-        if theta==None:
-            self.theta=np.random.randint(0,360)
-        self.qubit=[[self.alpha,self.theta]]
         
 class Various_measurement(Alice,Bob,Generator,Operation_Dice):
     
@@ -152,26 +196,9 @@ class Gate(Qubit):
         self.qubit = [[a],[b]]
         #It Hadamard gates, phase, NOT and pi-gate.
         #They are needed for controlled action on the qubit 
-    def act_Hadamard(self): 
-        Hadamard = [[1/math.sqrt(2),1/math.sqrt(2)],[1/math.sqrt(2),-1/math.sqrt(2)]]
-        self.Hadamard = Hadamard*self.qubit
         
-    def act_not(self):
-        NOT = [[0,1],[1,0]]
-        self.NOT = NOT*self.qubit
         
-    def act_phase_gate(self):
-        a = complex(0,1)
-        a = a.imag
-        phase_gate = [[1,0],[0,a]]
-        self.phase_gate = phase_gate * self.qubit
-        
-    def affect_gate_pi(self):
-        p = complex(0,math.pi/4)
-        p = p.imag
-        gate_pi = [[1,0],[0,p]]
-        self.gate_pi = gate_pi * self.qubit
-    
+
 
     
 
