@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu May  5 14:50:51 2016
+Created on Thu May  5 14:50:51 2016 
+It would be nice to sleep, but I'm doing it
 
 @author: Алена
 """
@@ -9,28 +10,25 @@ import math
 
 class Qubit:
     
-    def __init__(self,alpha=None,theta=None):
-        self.alpha=alpha
-        self.theta=theta
-        if alpha==None:
-            self.alpha=np.random.randint(0,360)
-        if theta==None:
-            self.theta=np.random.randint(0,360)
-        self.qubit=[[self.alpha,self.theta]]
+    def __init__(self,probability_1=None):
+        if probability_1==None:
+            probability_1=np.random.random()
+        probability_2=math.sqrt(1-(probability_1**2))
+        self.qubit=np.array([[probability_1,probability_2]])
     
     def __repr__(self): #a method for outputting a qubit
         return "qubit: " + str(self.qubit)
         
 class Hadamard():
     def __init__(self): 
-        self.apply_Hadamard = [[1/math.sqrt(2),1/math.sqrt(2)],[1/math.sqrt(2),-1/math.sqrt(2)]]
+        self.apply_Hadamard = np.array([1/math.sqrt(2),1/math.sqrt(2)],[1/math.sqrt(2),-1/math.sqrt(2)])
     
     def __repr__(self): #a method for outputting a qubit
         return "Hadamard: " + str(self.apply_Hadamard)
         
 class NOT():
     def __init__(self):
-        self.apply_NOT = [[0,1],[1,0]]
+        self.apply_NOT = np.array([0,1],[1,0])
         
     def __repr__(self): 
         return "NOT: " + str(self.apply_NOT)
@@ -39,7 +37,7 @@ class Phase_gate():
     def __init__(self):
         a = complex(0,1)
         a = a.imag
-        self.apply_phase_gate = [[1,0],[0,a]]
+        self.apply_phase_gate = np.array([1,0],[0,a])
         
     def __repr__(self): 
         return "Phase_gate: " + str(self.apply_phase_gate)
@@ -48,115 +46,86 @@ class Gate_pi():
     def __init__(self):
         p = complex(0,math.pi/4)
         p = p.imag
-        self.apply_gate_pi = [[1,0],[0,p]]
+        self.apply_gate_pi = np.array([1,0],[0,p])
         
     def __repr__(self): 
         return "Gate_pi: " + str(self.apply_gate_pi)
         
-class CNOT():
-    def __init__(self):
-        self.apply_CNOT = [[1,0,0,0],[0,1,0,0],[0,0,0,1],[0,0,1,0]]
+class Gate_pi8():
+    def __init__(self,n):
+        p = complex(0,math.pi/8)
+        p = p.imag
+        self.apply_gate_pi8 = np.array([[math.exp(-p*n),0],[0,math.exp(p*n)]])
         
     def __repr__(self): 
-        return "Gate_pi: " + str(self.apply_CNOT)
+        return "Gate_pi8: " + str(self.apply_gate_pi8)
         
-class Projection_gate():
-    
-    def __init__(self,*args,**kwargs):
-        i=0
-        mass_gate1=[]
-        mass_gate2=[]
-        pol1=args
-        pol2=kwargs
-        pol=np.random.choice([pol1,pol2])
-        while i<len(pol):
-            radiany=math.radians(int(pol[i]))
-            mass_gate1.append(math.cos(radiany))
-            mass_gate2.append(math.sin(radiany))
-            i=i+1
-        self.gate = [[mass_gate1],[mass_gate2]]
-    
-    def theta(self,*args):
-        thet=args
-        mass_gate1=[]
-        mass_gate2=[]
-        i=0
-        while i<len(thet):
-            b1 = complex(0,int(thet[i]))
-            mass_gate1.append(1)
-            mass_gate2.append((math.e**(b1.imag)))
-            i=i+1
-        self.gate_theta=[[mass_gate1],[mass_gate2]]
-
+class CNOT():
+    def __init__(self):
+        self.apply_CNOT = np.array([1,0,0,0],[0,1,0,0],[0,0,0,1],[0,0,1,0])
+        
+    def __repr__(self): 
+        return "Gate_CNOT: " + str(self.apply_CNOT)
+        
+        
+        
+        
+        
+        
 
 class Actor():
     def __init__(self, quantity_bas,long_message):#This class
     #constructor generator. Set the number of bases used and the message length
         self.long_message = long_message
         self.quantity_bas = quantity_bas
-        
-    def set_alpha1(self,*args):
-    #We set the desired polarization. Example: 0, 45, 90, ...
-        self.write_alpha1 = args
-        return args
-        
-    def set_alpha2(self,*args):
-    #We set the desired polarization. Example: 0, 45, 90, ...
-        self.write_alpha2 = args
-        return args
-        
-    def write_theta(self,*args):
-        #A predetermined angle in the other plane Bloch sphere 
-    #to describe the first qubit by appropriate angles
-        self.write_theta = args
-        return args
-    
-    def write_bases(self,*args): 
-        #We denote bases for themselves. This agreement
-        self.write_bas = args
-        return args
 
     def send(self):
         #This function is used for a random mixing bases and polarizations.
     #Their use Alice and Bob. But if you need something to mix, call this function.
         a=0
-        randomly_bases=[]
-        self.randomly_alpha=[]
-        self.randomly_theta=[]
-        i=np.random.choice(int(self.write_bas),self.long_message)
+        self.message_qubit=[]
+        self.randomly_bases=np.random.randint(0,int(self.quantity_bas),self.long_message)
         while a<self.long_message:
-            c=[x*0 for x in range(len(self.write_bas))]
-            c[i[a]]=1
-            randomly_bases.append(c)
-        randomly_polarization=[]
-        l=0
-        while l<self.long_message:
-            g=Projection_gate(self.write_alpha1,self.write_alpha2)
-            qubit1=np.dot(randomly_bases[l],g.gate)
-            pol=math.acos(qubit1[1])
-            randomly_polarization.append(math.degrees(pol))
-            l=l+1
+            i=np.random.choice([0,1])
+            q=Qubit(i)
+            self.message_qubit.append(q.qubit)
+            a=a+1
+            
+            
 
 class Alice(Actor):#Here they take their randomly values
-        
-    def get_randomly_polarization(self):
-        self.she_send_randomly_polarization=self.randomly_polarization
-        return self.she_send_randomly_polarization
-        
-    def get_randomly_bases(self):
+            
+    def get_randomly_bases_alice(self):
+        self.send()
         self.she_send_randomly_bases=self.randomly_bases
         return self.she_send_randomly_bases
+        
+    def send_qubits_alice(self):
+        self.qubits_alice=[]
+        i=0
+        while i<self.long_message:
+            q=Gate_pi8(self.she_send_randomly_bases[i])
+            c=np.dot(self.message_qubit[i],q.apply_gate_pi8)
+            self.qubits_alice.append(c)
+            i=i+1
+        
     
         
 class Bob(Actor):
-        
-    def get_randomly_polarization(self):
-        self.he_send_randomly_polarization=self.randomly_polarization
-        return self.he_send_randomly_polarization
-        
-    def get_randomly_bases(self):
+              
+    def get_randomly_bases_bob(self):
+        self.send()
         self.he_send_randomly_bases=self.randomly_bases
         return self.he_send_randomly_bases
+        
+    def received_qubits_bob(self):
+        self.qubits_bob=[]
+        i=0
+        while i<self.long_message:
+            q=Gate_pi8(self.he_send_randomly_bases[i])
+            c=np.dot(self.message_qubit[i],q.apply_gate_pi8)
+            self.qubits_bob.append(c)
+            i=i+1
         
 
         
@@ -166,12 +135,16 @@ class Various_measurement(Alice,Bob,Actor):
     #forms the following key. If the bases are equal to the true value,
     #if not - then the value of Bob
         self.taken_qubits=[]
+        self.get_randomly_bases_alice()
+        self.get_randomly_bases_bob()
+        self.send_qubits_alice()
+        self.received_qubits_bob()
         i=0
         while i < self.long_message:
             if self.she_send_randomly_bases[i] == self.he_send_randomly_bases[i]:
-                self.taken_qubits.append(self.she_send_randomly_polarization(i))
+                self.taken_qubits.append(self.qubits_alice[i])
             else:
-                self.taken_qubits.append(self.he_send_randomly_bases(i))
+                self.taken_qubits.append(self.qubits_bob[i])
             i=i+1
         return self.taken_qubits
         
@@ -179,15 +152,30 @@ class Various_measurement(Alice,Bob,Actor):
     def generate_key(self): #generated by the key itself on the trail
         self.key=[]
         i=0
-        while i < self.set_long:
+        while i < self.long_message:
             if self.she_send_randomly_bases[i] == self.he_send_randomly_bases[i]:
-                if (-90)<=self.taken_qubits[i]<90:
+                c=self.taken_qubits[i]
+                if c[0][0]==0:
                     self.key.append(1)
                 else:
                     self.key.append(0)
             else:
                 pass
+            i=i+1
             
+    def __repr__(self): 
+        return "Key: " + str(self.key)
+            
+a=Alice(4,10)
+a.get_randomly_bases_alice()
+a.send_qubits_alice()
+b=Bob(4,10)
+b.get_randomly_bases_bob()
+b.received_qubits_bob()
+c=Various_measurement(4,10)
+c.compare_bob_alice()
+c.generate_key()
+print(c.key)
 
         
         
