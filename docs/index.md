@@ -7,7 +7,7 @@
 **HIDDEN INFORMATION**
 
 ## Logo
-![HI logo](/img/coding-hidden-inf.jpg "HI logo")
+![HI logo](https://github.com/AnastasiaKhrabraya/HI/blob/master/img/coding-hidden-inf.jpg "HI logo")
 
 ## Briefly about us
 Our project focuses on quantum cryptography. We created a library for  prototyping quantum key distribution protocols. Using known protocols such as BB84 and Sarg04 and programming language Python we have made a quantum key distribution algorithm, encrypt the key itself, tried to restore it with the host as an example
