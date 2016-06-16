@@ -52,7 +52,7 @@ Move on to the implementation of Hadamard gate:
     return "Hadamard: " + str(self.apply_Hadamard)
 
 Hadamard Gate is one of the most useful quantum gates. This gate is sometimes defined as "the square root of NOT gate.
-This is due to the fact that the gate converts `|0>` part of a qubit in `(|0>+|1>)/√2`. It as a half of way between `|0>` and `|1>` states in the geometric interpretation of the qubit on the Bloch sphere. Accordingly, in the `|1>` part of the qubit Hadamard gate is converted into a combination of `(|0> - |1>)/√2`, which is also a half of way between `|0>` and `|1>`. However, H^2^ gate does not lead to NOT gate, as the algebraic calculations give H^2^ ≡ I. A twofold use of the gate H returns system an initial position. Function looks like this
+This is due to the fact that the gate converts `|0>` part of a qubit in `(|0>+|1>)/√2`. It as a half of way between `|0>` and `|1>` states in the geometric interpretation of the qubit on the Bloch sphere. Accordingly, in the `|1>` part of the qubit Hadamard gate is converted into a combination of `(|0> - |1>)/√2`, which is also a half of way between `|0>` and `|1>`. However, H*H gate does not lead to NOT gate, as the algebraic calculations give H*H ≡ I. A twofold use of the gate H returns system an initial position. Function looks like this
 
     matrix= Hadamard()
     matrix. apply_Hadamard

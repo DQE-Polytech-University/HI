@@ -7,7 +7,7 @@
 **HIDDEN INFORMATION**
 
 ## Logo
-[HI logo](https://github.com/DQE-Polytech-University/HI/blob/master/img/coding-hidden-inf.jpg "HI logo")\
+[HI logo](https://github.com/DQE-Polytech-University/HI/blob/master/img/coding-hidden-inf.jpg "HI logo")
 ![](/img/coding-hidden-inf.jpg)
 
 ## Briefly about us
