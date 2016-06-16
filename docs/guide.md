@@ -26,11 +26,16 @@ The SARG04 protocol is aimed at the improvement of the robustness of the main pr
 ### Concept
 
 The qubit quantum information is defined as a unit of quantum information, the same way as the bit (0 or 1) is defined as a unit of the classical theory of information. However, in contrast to the concept of bits of information in the classical theory, which can be read (measured) without destroying the state of the bit, a qubit when reading (measuring) goes into one of its two basis states |0> and |1>. Based on the received symbols and built any quantum key distribution. This process can be divided into several steps.
+
 *Step 1* Alice randomly selects a set of bases in the states. Each qubit basis is formed.
 The process of forming a qubit in basis is carried out through so-called rotary Gate. Gate system rotates at an angle. There is accumulation of qubits in different bases. Then this sequence is sent to the recipient via a secure channel to Bob.
+
 *Step 2* Bob just randomly and independently of Alice selects a set of bases in the states.
+
 *Step 3* Bob reported on an open channel set its bases, for which the measurement is made.
+
 *Step 4* Alice tells an open channel, which bases used in the generation of photons.
+
 *Step 5* There is a comparison of sets of bases of Alice and Bob. Choose only those cases where the bases are aligned. Thus is formed a key. We should also describe how the struggle with the attacker Eve. Eve's actions described by multiplying the received qubit from the communication channel to an arbitrary turning the gate, which is not determined by the choice of bases in the space of Alice and Bob. That's why Bob would understand that there is an intruder in the channel.
 
 ### Algorithm
