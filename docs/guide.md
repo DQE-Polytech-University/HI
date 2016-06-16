@@ -25,6 +25,8 @@ The SARG04 protocol is aimed at the improvement of the robustness of the main pr
 
 ### Concept
 
+Alice writes a string of bases, converts qubits in accordance with them. Bob creates his string of bases, then they compare their bases and in the place of true candidates, we get the qubits. Key is written.
+
 ### Algorithm
 
     class Qubit:
