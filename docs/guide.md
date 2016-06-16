@@ -40,8 +40,8 @@ Class for qubit describes the state of the qubit on the Bloch sphere, excluding 
 Function `def __repr__(self): return "qubit: " + str(self.qubit)` is required to display the qubit on the screen.
 In order to set the qubit introduce (the user enters values 1 or 0):
 
-  particle= Qubit(1)
-  particle. qubit
+    particle= Qubit(1)
+    particle. qubit
 
 Move on to the implementation of Hadamard gate:
 
