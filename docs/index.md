@@ -1,6 +1,6 @@
 # HIDDEN INFORMATION Documentation
 
-1. [Preface](preface.md)
+* [Preface](index.md)
 ***
 
 ## Project name
@@ -18,6 +18,6 @@ To create a tool for prototyping protocols of quantum key distribution. It is us
 
 ***
 
-2. [User's Guide](guide.md)
-3. [Acknowledgements](thanks.md)
-4. [Reference](ref.md)
+* [User's Guide](guide.md)
+* [Acknowledgements](thanks.md)
+* [Reference](ref.md)
