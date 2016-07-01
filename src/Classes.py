@@ -6,13 +6,21 @@ import math
 class Qubit:
     
     def __init__(self,state_1=None):
-        if state_1==None:
-            state_1=np.random.random()
-        state_2=math.sqrt(1-(state_1**2))
-        self.qubit=np.array([[state_1,state_2]])
+        if state_1 == None:
+            state_1 = np.random.choice([1/math.sqrt(2),-1/math.sqrt(2)])
+        state_2 = math.sqrt(1-(state_1**2))
+        self.qubit = np.array([state_1,state_2])
     
     def __repr__(self): #a method for outputting a qubit
         return "qubit: " + str(self.qubit)
+        
+class Entangled_state:
+    
+    def __init__(self,state_1=None,state_2=None):
+        if state_1 == None and state_1 == None:
+            state_1 = np.random.choice([1/math.sqrt(2),-1/math.sqrt(2)])
+            state_2 = np.random.choice([-1/math.sqrt(2),1/math.sqrt(2)]) 
+        self.Bell_state = np.array([state_1,state_1]) * np.array([0 , 1]) + np.array([state_2,state_2]) * np.array([1 , 0])
         
 class Hadamard():
     def __init__(self): 
@@ -20,7 +28,7 @@ class Hadamard():
     
     def __repr__(self): #a method for outputting a qubit
         return "Hadamard: " + str(self.apply_Hadamard)
-        
+
 class NOT():
     def __init__(self):
         self.apply_NOT = np.array([[0,1],[1,0]])
@@ -73,10 +81,10 @@ class Actor():
         self.index_entanglement = index_entanglement
 
     def send(self):
-        #
-    #
+
         a=0
-        self.message_qubit=[]
+        self.message_qubit = []
+        self.normal_view = []
         self.randomly_bases=np.random.randint(0,int(self.number_bas),self.long_message)
         while a<self.long_message:
             if self.index_entanglement == 0:
@@ -85,6 +93,20 @@ class Actor():
                 i=np.random.choice([-1/(math.sqrt(2)),1/(math.sqrt(2))])
             q=Qubit(i)
             self.message_qubit.append(q.qubit)
+            if q.qubit[0] == 1:
+                self.normal_view.append(0)
+            elif q.qubit[0] == 0:    
+                self.normal_view.append(1)
+            else :
+                self.normal_view.append(np.random.choice([0,1]))
+            a=a+1
+            
+    def send_entangled(self,the_number_of_entangled_qubits_sent):
+        a = 0
+        self.message_Bell_state = []
+        while a < the_number_of_entangled_qubits_sent:
+            port = Entangled_state()
+            the_number_of_entangled_qubits_sent.append(port.Bell_state)
             a=a+1
             
             
@@ -193,7 +215,58 @@ class Various_measurement(Alice,Eve,Bob):
             
     def __repr__(self): 
         return "Key: " + str(self.key)
+      
         
+class Effect:
+    
+    def __init__(self,gate_impact, state_1=None):
+        gate_impact = int(gate_impact)
+        if state_1 == None:
+            state_1 = np.random.choice([0,1])
+        state_2=math.sqrt(1-(state_1**2))
+        self.qubit = np.array([[state_1,state_2]])
+        if gate_impact == 1:
+            a = Hadamard()
+            self.impact_result = np.dot(self.qubit,a.apply_Hadamard)
+        if gate_impact == 2:
+            a = NOT()
+            self.impact_result=np.dot(self.qubit,a.apply_NOT)
+        if gate_impact == 3:
+            a = Gate_pi()
+            self.impact_result=np.dot(self.qubit,a.apply_gate_pi)
+        if gate_impact == 4:
+            a = Gate_pi8()
+            self.impact_result=np.dot(self.qubit,a.apply_gate_pi8)
+        if gate_impact == 5:
+            a = Gate_turn()
+            self.impact_result=np.dot(self.qubit,a.apply_gate_turn)
+        if gate_impact == 6:
+            a = CNOT()
+            self.impact_result=np.dot(self.qubit,a.apply_CNOT)
+            
+class Transformations:
+     
+    def __init__(self,array_qubits):
+        self.array_qubits = array_qubits
+
+    def to_entangle(self):
+        a=0
+        self.entangle= self.array_qubits[a]
+        while a < len(self.array_qubits)-1:
+            b=a+1
+            if self.entangle == self.array_qubits[b]:
+                self.entangle = 0
+            else:
+                self.entangle = 1
+            a=a+1           
+            
+            
+#alica=np.array([0,1,0,1,0,1,1])
+#coc = Transformations(alica)
+#coc.to_entangle()
+#print(coc.entangle)
+            
+            
             
 #a=Alice(4,10,0)
 #a.get_randomly_bases_alice()
