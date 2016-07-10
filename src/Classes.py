@@ -205,7 +205,7 @@ class Various_measurement(Alice,Eve,Bob):
         while i < self.long_message:
             if self.she_send_randomly_bases[i] == self.he_send_randomly_bases[i]:
                 c=self.taken_qubits[i]
-                if c[0][0]==0:
+                if c[0] == 0:
                     self.key.append(1)
                 else:
                     self.key.append(0)
